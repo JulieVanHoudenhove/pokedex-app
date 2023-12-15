@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import pokeball from '../assets/pokeball.png'
 
 const PokeCard = ({pokemon}) => {
 
@@ -19,9 +19,7 @@ const PokeCard = ({pokemon}) => {
     };
 
     useEffect(() => {
-        // console.log(pokemon);
         getPokemonsDetailsFromApi().then((data) => {
-            // console.log(data.sprites.front_default);
             setPokemonDetailsData(data);
             setPokemonImg(data.sprites);
         })
@@ -32,9 +30,8 @@ const PokeCard = ({pokemon}) => {
     <TouchableOpacity style={styles.container}>
         <View style={styles.subcontainer}>
             {
-                pokemonImg ? <Image style={styles.tinyLogo} source={{uri: pokemonImg.front_default}}/> : <Image style={styles.tinyLogo} source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}} />
+                pokemonImg ? <Image style={styles.tinyLogo} source={{uri: pokemonImg.front_default}}/> : <Image style={styles.tinyLogo} source={pokeball} />
             }
-            {/* <Image style={styles.tinyLogo} source={{uri: pokemonDetailsData.front_default}}/> */}
             <Text>{pokemon.name}</Text>
         </View>
     </TouchableOpacity>
