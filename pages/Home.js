@@ -17,7 +17,7 @@ export default function App() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Home</Text>
+            <Text style={styles.subtitle}>Homepage</Text>
             <FlatList
                 style={styles.list}
                 data={pokemonData}
@@ -43,5 +43,12 @@ const styles = StyleSheet.create({
     list: {
         display: 'flex',
         flexDirection: 'column',
-    }
+    },
+    subtitle: {
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 20,
+    },
 });

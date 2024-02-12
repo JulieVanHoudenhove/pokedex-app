@@ -27,7 +27,7 @@ const PokeCard = ({pokemon}) => {
     }, []);
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('PokemonScreen', {datas: pokemonDetailsData, pokemonImg: pokemonImg})}>
         <View style={styles.subcontainer}>
             {
                 pokemonImg ? <Image style={styles.tinyLogo} source={{uri: pokemonImg.front_default}}/> : <Image style={styles.tinyLogo} source={pokeball} />
@@ -46,8 +46,9 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         alignItems: 'center',
-        width: '33,33%',
         justifyContent: 'space-between',
+        width: '33%',
+        marginBottom: 30,
     },
     subcontainer: {
         display: 'flex',
