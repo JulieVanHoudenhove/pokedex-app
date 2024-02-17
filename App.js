@@ -46,10 +46,11 @@ function SettingsScreen() {
 }
 
 export default function App() {
+
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>Pokedex</Text>
             <NavigationContainer>
+                <Text style={styles.title}>Pokedex</Text>
                 <Tab.Navigator>
                     <Tab.Screen name='Home' component={HomeScreen} />
                     <Tab.Screen name='Search' component={SearchScreen} />
