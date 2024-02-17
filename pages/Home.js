@@ -17,7 +17,6 @@ export default function App() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.subtitle}>Homepage</Text>
             <FlatList
                 style={styles.list}
                 data={pokemonData}
