@@ -1,14 +1,60 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
-import React, { useEffect } from 'react'
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { useFocusEffect } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Detail = ({route, navigation }) => {
 
     const data = route.params.data;
     const img = route.params.img;
 
+    const [isSaved, setIsSaved] = useState(false);
+
+    const checkIfSaved = async () => {
+        try {
+            const savedPokemons = JSON.parse(await AsyncStorage.getItem("saved-pokemons"));
+
+            if (savedPokemons !== null) {
+                for (let i = 0; i < savedPokemons.length; i++) {
+                    if (savedPokemons[i].id === data.id) {
+                        setIsSaved(true);
+                    }
+                }
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const savePokemon = async () => {
+        try {
+            const savedPokemons = JSON.parse(await AsyncStorage.getItem("saved-pokemons"));
+            if (savedPokemons !== null) {
+                await AsyncStorage.setItem("saved-pokemons", JSON.stringify([...savedPokemons, data]));
+            } else {
+                await AsyncStorage.setItem("saved-pokemons", JSON.stringify([data]));
+            }
+            setIsSaved(true);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const removePokemon = async () => {
+        try {
+            const savedPokemons = JSON.parse(await AsyncStorage.getItem("saved-pokemons"));
+            if (savedPokemons !== null) {
+                const newSavedPokemons = savedPokemons.filter((pokemon) => pokemon.id !== data.id);
+                await AsyncStorage.setItem("saved-pokemons", JSON.stringify(newSavedPokemons));
+                setIsSaved(false);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     useEffect(() => { 
-        console.log(route)
+        checkIfSaved()
     }, [])
 
     return (
@@ -18,6 +64,9 @@ const Detail = ({route, navigation }) => {
             {
                 img ? <Image style={styles.tinyLogo} source={{uri: img.front_default}}/> : <Image style={styles.tinyLogo} source={pokeball} />
             }
+            <Pressable onPress={isSaved ? removePokemon : savePokemon}>
+                <Text>{ isSaved ? 'saved' : 'unsaved' }</Text>
+            </Pressable>
         </View>
     )
 }
