@@ -4,10 +4,13 @@ import Home from './pages/Home';
 import Search from './pages/Search';
 import Teams from './pages/Teams';
 import Settings from './pages/Settings';
+import Detail from './pages/Detail';
+import { createNativeStackNavigator} from '@react-navigation/native-stack';
 import { NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 function HomeScreen() {
     return (
@@ -45,22 +48,50 @@ function SettingsScreen() {
     );
 }
 
-export default function App() {
+// Écran pour le Tab Navigator
+function TabNavigatorScreen() {
+    return (
+        <Tab.Navigator>
+            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Search" component={SearchScreen} />
+            <Tab.Screen name="Teams" component={TeamsScreen} />
+            <Tab.Screen name="Settings" component={SettingsScreen} />
+        </Tab.Navigator>
+    );
+}
 
+// Stack Navigator principal incluant le Tab Navigator et la page Detail
+export default function App() {
     return (
         <SafeAreaView style={styles.container}>
             <NavigationContainer>
                 <Text style={styles.title}>Pokedex</Text>
-                <Tab.Navigator>
-                    <Tab.Screen name='Home' component={HomeScreen} />
-                    <Tab.Screen name='Search' component={SearchScreen} />
-                    <Tab.Screen name='Teams' component={TeamsScreen} />
-                    <Tab.Screen name='Settings' component={SettingsScreen} />
-                </Tab.Navigator>
+                <Stack.Navigator>
+                    <Stack.Screen name="Tabs" component={TabNavigatorScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name="Detail" component={Detail} />
+                </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaView>
+
     );
 }
+
+// export default function App() {
+
+//     return (
+//         <SafeAreaView style={styles.container}>
+//             <NavigationContainer>
+//                 <Text style={styles.title}>Pokedex</Text>
+//                 <Tab.Navigator>
+//                     <Tab.Screen name='Home' component={HomeScreen} />
+//                     <Tab.Screen name='Search' component={SearchScreen} />
+//                     <Tab.Screen name='Teams' component={TeamsScreen} />
+//                     <Tab.Screen name='Settings' component={SettingsScreen} />
+//                 </Tab.Navigator>
+//             </NavigationContainer>
+//         </SafeAreaView>
+//     );
+// }
 
 const styles = StyleSheet.create({
     container: {
