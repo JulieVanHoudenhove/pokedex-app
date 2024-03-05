@@ -17,14 +17,17 @@ const PokeCard = ({pokemon}) => {
             console.error(error);
         };
     };
-
+    
     useEffect(() => {
-        getPokemonsDetailsFromApi().then((data) => {
-            setPokemonDetailsData(data);
-            setPokemonImg(data.sprites);
-        })
-
-    }, []);
+        if (pokemon.sprites) {
+                setPokemonImg(pokemon.sprites);
+        } else {
+            getPokemonsDetailsFromApi().then((data) => {
+                setPokemonDetailsData(data);
+                setPokemonImg(data.sprites);
+            })
+        }
+    }, [pokemon]);
 
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('PokemonScreen', {datas: pokemonDetailsData, pokemonImg: pokemonImg})}>

@@ -11,7 +11,7 @@ export default function App() {
 
     async function searchPokemon() {
         try {
-            const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + lowerText);
+            const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + lowerText)
 
             if (!response.ok) {
                 setReturnText('Pokemon not found');
@@ -21,6 +21,9 @@ export default function App() {
 
             const json = await response.json();
             setPokemonData(json);
+
+            
+            console.log('test', json.sprites )
         } catch (error) {
             console.log(error);
         }
@@ -44,7 +47,7 @@ export default function App() {
                 </View>
                 {pokemonData.name !== undefined ? (
                         <View style={styles.result}>
-                            <Text>{pokemonData.name}</Text>
+                        <PokeCard pokemon={pokemonData}/>
                         </View>
                     ) : (
                         <View style={styles.result}>
