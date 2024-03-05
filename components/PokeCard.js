@@ -2,9 +2,10 @@ import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import pokeball from '../assets/pokeball.png'
+import { useNavigation } from "@react-navigation/native";
 
 const PokeCard = ({pokemon}) => {
-
+    const navigation = useNavigation();
     const [pokemonDetailsData, setPokemonDetailsData] = useState([]);
     const [pokemonImg, setPokemonImg] = useState(null);
 
@@ -30,7 +31,7 @@ const PokeCard = ({pokemon}) => {
     }, [pokemon]);
 
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('PokemonScreen', {datas: pokemonDetailsData, pokemonImg: pokemonImg})}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Detail', {data: pokemonDetailsData, img: pokemonImg})}>
             <View style={styles.subcontainer}>
                 {
                     pokemonImg ? <Image style={styles.tinyLogo} source={{uri: pokemonImg.front_default}}/> : <Image style={styles.tinyLogo} source={pokeball} />

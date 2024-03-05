@@ -21,9 +21,6 @@ export default function App() {
 
             const json = await response.json();
             setPokemonData(json);
-
-            
-            console.log('test', json.sprites )
         } catch (error) {
             console.log(error);
         }
