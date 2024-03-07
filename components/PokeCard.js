@@ -22,6 +22,7 @@ const PokeCard = ({pokemon}) => {
     useEffect(() => {
         if (pokemon.sprites) {
                 setPokemonImg(pokemon.sprites);
+                setPokemonDetailsData(pokemon)
         } else {
             getPokemonsDetailsFromApi().then((data) => {
                 setPokemonDetailsData(data);

@@ -1,6 +1,7 @@
 import { StyleSheet, Text, FlatList, SafeAreaView } from 'react-native';
 import getPokemonsFromApi from '../api/api';
 import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import PokeCard from '../components/PokeCard';
 
 export default function App() {
@@ -9,6 +10,7 @@ export default function App() {
     const [nextPage, setNextPage] = useState('');
 
     useEffect(() => {
+        // AsyncStorage.clear()
         getPokemonsFromApi('https://pokeapi.co/api/v2/pokemon').then((data) => {
             setPokemonData([...pokemonData, ...data.results]);
             setNextPage(data.next);        

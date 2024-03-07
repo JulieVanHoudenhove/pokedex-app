@@ -3,10 +3,12 @@ import getPokemonsFromApi from '../api/api';
 import { useEffect, useState } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import PokeCard from '../components/PokeCard';
+import { useIsFocused } from "@react-navigation/native";
 
 export default function App() {
 
     const [savedPokemons, setSavedPokemons] = useState([]);
+    const isFocused = useIsFocused();
 
     const getData = async () => {
         try {
@@ -20,14 +22,15 @@ export default function App() {
     };
 
     useEffect(() => {
-        getData();
-    }, [savedPokemons]);
+        if (isFocused) {
+            getData();
+        }
+    }, [isFocused]);
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Teams</Text>
             {
-                savedPokemons.length === 0
+                savedPokemons.length === 0 || savedPokemons === null
                     ?
                     <Text>Vous avez pas de pokemon dans votre team</Text>
                     : 
@@ -36,7 +39,7 @@ export default function App() {
                         data={savedPokemons}
                         numColumns={3}
                         renderItem={(pokemon) => <PokeCard pokemon={pokemon.item}></PokeCard>}
-                        keyExtractor={pokemon => pokemon.id}
+                        keyExtractor={pokemon => pokemon.name}
                     />
             }
         </SafeAreaView>

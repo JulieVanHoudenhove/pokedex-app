@@ -14,7 +14,7 @@ const Detail = ({route, navigation }) => {
         try {
             const savedPokemons = JSON.parse(await AsyncStorage.getItem("saved-pokemons"));
 
-            if (savedPokemons !== null) {
+            if (savedPokemons !== null && savedPokemons.length > 0) {
                 for (let i = 0; i < savedPokemons.length; i++) {
                     if (savedPokemons[i].id === data.id) {
                         setIsSaved(true);
@@ -59,13 +59,12 @@ const Detail = ({route, navigation }) => {
 
     return (
         <View>
-            <Text>Detail</Text>
             <Text>{data.name}</Text>
             {
                 img ? <Image style={styles.tinyLogo} source={{uri: img.front_default}}/> : <Image style={styles.tinyLogo} source={pokeball} />
             }
-            <Pressable onPress={isSaved ? removePokemon : savePokemon}>
-                <Text>{ isSaved ? 'saved' : 'unsaved' }</Text>
+            <Pressable style={styles.button} onPress={isSaved ? removePokemon : savePokemon}>
+                <Text style={styles.textButton}>{ isSaved ? 'saved' : 'unsaved' }</Text>
             </Pressable>
         </View>
     )
@@ -87,7 +86,18 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+    button: {
+        backgroundColor: '#2e2e2e',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 5,
+    },
+    textButton: {
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
 });
 
 export default Detail
