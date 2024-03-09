@@ -12,6 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -112,8 +113,36 @@ export default function App() {
                 <Text style={styles.title}>Pokedex</Text>
                 <Stack.Navigator>
                     <Stack.Screen name="Tabs" component={TabNavigatorScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name="Detail" component={Detail} />
-                    <Stack.Screen name="Camera" component={Camera} />
+                    <Stack.Screen
+                        options={({ navigation }) => ({
+                            headerLeft: () => (
+                                <Ionicons
+                                name="chevron-back"
+                                size={32}
+                                color="red"
+                                onPress={() => navigation.goBack()}
+                                style={{ marginLeft: -15 }}
+                                />
+                            ),
+                        })}
+                        name="Detail"
+                        component={Detail}
+                    />
+                    <Stack.Screen
+                        options={({ navigation }) => ({
+                            headerLeft: () => (
+                                <Ionicons
+                                name="chevron-back"
+                                size={32}
+                                color="red"
+                                onPress={() => navigation.goBack()}
+                                style={{ marginLeft: -15 }}
+                                />
+                            ),
+                        })}
+                        name="Camera"
+                        component={Camera}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaView>
