@@ -8,6 +8,13 @@ const PokeCard = ({pokemon}) => {
     const navigation = useNavigation();
     const [pokemonDetailsData, setPokemonDetailsData] = useState([]);
     const [pokemonImg, setPokemonImg] = useState(null);
+    
+    function capitalizeFirstLetter(string) {
+        if (string === undefined)
+            return '';
+
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     const getPokemonsDetailsFromApi = async () => {
         try {
@@ -37,7 +44,7 @@ const PokeCard = ({pokemon}) => {
                 {
                     pokemonImg ? <Image style={styles.tinyLogo} source={{uri: pokemonImg.front_default}}/> : <Image style={styles.tinyLogo} source={pokeball} />
                 }
-                <Text>{pokemon.name}</Text>
+                <Text>{capitalizeFirstLetter(pokemon.name)}</Text>
             </View>
         </TouchableOpacity>
     )
