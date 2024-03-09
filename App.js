@@ -9,6 +9,9 @@ import Camera from './pages/Camera';
 import { createNativeStackNavigator} from '@react-navigation/native-stack';
 import { NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -52,11 +55,51 @@ function SettingsScreen() {
 // Écran pour le Tab Navigator
 function TabNavigatorScreen() {
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Search" component={SearchScreen} />
-            <Tab.Screen name="Teams" component={TeamsScreen} />
-            <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Navigator
+            screenOptions={{
+                tabBarActiveTintColor: 'red',
+            }}
+        >
+            <Tab.Screen
+                options={{
+                    tabBarLabel: 'Home',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="home" color={color} size={size} />
+                    ),
+                }}
+                name="Home"
+                component={HomeScreen}
+            />
+            <Tab.Screen
+                options={{
+                    tabBarLabel: 'Search',
+                    tabBarIcon: ({ color, size }) => (
+                        <Entypo name="magnifying-glass" size={size} color={color} />
+                    ),
+                }}
+                name="Search"
+                component={SearchScreen}
+            />
+            <Tab.Screen
+                options={{
+                    tabBarLabel: 'Teams',
+                    tabBarIcon: ({ color, size }) => (
+                        <AntDesign name="team" size={size} color={color} />
+                    ),
+                }}
+                name="Teams"
+                component={TeamsScreen}
+            />
+            <Tab.Screen
+                options={{
+                    tabBarLabel: 'Teams',
+                    tabBarIcon: ({ color, size }) => (
+                        <AntDesign name="setting" size={size} color={color} />
+                    ),
+                }}
+                name="Settings"
+                component={SettingsScreen}
+            />
         </Tab.Navigator>
     );
 }
