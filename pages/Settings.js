@@ -1,4 +1,4 @@
-import { StyleSheet, Text, SafeAreaView, Button, Image } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, ScrollView, TouchableOpacity, Image, View } from 'react-native';
 import getPokemonsFromApi from '../api/api';
 import { useEffect, useState } from 'react';
 import PokeCard from '../components/PokeCard';
@@ -30,10 +30,23 @@ export default function App() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Settings</Text>
-            <Button title="Open camera" onPress={pickImage} />
-            <Button title="Pick an image from camera roll" onPress={openCamera} />
-            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <View style={styles.profileView}>
+                    <Image style={styles.profileImage} source={require('../assets/sacha.png')} />
+                    <Text style={styles.username}>Username</Text>
+                </View>
+                <View style={styles.content}>
+                    <TouchableOpacity style={styles.button} onPress={openCamera}>
+                        <Text style={styles.textButton}>Open camera</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={pickImage}>
+                        <Text style={styles.textButton}>Pick an image from camera roll</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.content}>
+                    {image && <Image source={{ uri: image }} style={styles.imagePick} />}
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -46,11 +59,57 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
     },
+    content: {
+        display: 'flex',
+        flexDirection: 'column',
+        margin: 30,
+    },
     subtitle: {
         textAlign: 'center',
         fontSize: 20,
         fontWeight: 'bold',
         marginTop: 20,
         marginBottom: 20,
+    },
+    profileImage: {
+        width: 300,
+        height: 300,
+        borderRadius: 200,
+        borderColor: '#2e2e2e',
+        marginBottom: 20,
+    },
+    profileView: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'column',
+        margin: 30,
+    },
+    username: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 20
+    },
+    button: {
+        backgroundColor: '#2e2e2e',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 5,
+        marginBottom: 20,
+    },
+    textButton: {
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
+    imagePick: {
+        width: 200,
+        height: 200,
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        justifyContent: 'space-between',
     },
 });
