@@ -1,18 +1,19 @@
-import {Camera, CameraType} from "expo-camera";
-import {Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {CameraView, Camera} from "expo-camera";
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useEffect, useState} from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
+import * as MediaLibrary from 'expo-media-library';
 
 export default function CameraComponent() {
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
     const navigation = useNavigation();
-    const [type, setType] = useState(CameraType.back);
-
-    const toggleCameraType = async () => {
-        setType((current) => (current === CameraType.back ? CameraType.front : CameraType.back))
+    const [facing, setFacing] = useState('back');
+    
+    const toggleCameraFacing = async () => {
+        console.log(facing)
+        setFacing((current) => (current === 'back' ? 'front' : 'back'))
     }
 
     useEffect(() => {
@@ -25,14 +26,16 @@ export default function CameraComponent() {
 
     const takePicture = async () => {
         if (cameraRef) {
+            // console.log(cameraRef)
             const photo = await cameraRef.takePictureAsync();
+            console.log(photo)
 
             if (photo.uri === undefined) {
                 return;
             }
-
+            
             try {
-                await AsyncStorage.setItem('picture', photo.uri);
+                await MediaLibrary.saveToLibraryAsync(photo.uri);
             } catch (error) {
                 console.error(error);
             }
@@ -50,39 +53,41 @@ export default function CameraComponent() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Camera style={styles.camera} type={type} ref={(ref) => setCameraRef(ref)}>
-                <View>
-                    <TouchableOpacity style={styles.buttonFlip} onPress={toggleCameraType}>
+            <CameraView style={styles.camera} facing={facing} ref={(ref) => setCameraRef(ref)}>
+                <View style={styles.containerFlip}>
+                    <TouchableOpacity style={styles.buttonFlip} onPress={toggleCameraFacing}>
                         <MaterialIcons name="flip-camera-ios" size={32} color="#FFF2C5" />
                     </TouchableOpacity>
                 </View>
-                <View>
+                <View style={styles.containerButton}>
                     <TouchableOpacity style={styles.button} onPress={takePicture} >
                         <MaterialIcons name="radio-button-on" size={60} color="white" />
                     </TouchableOpacity>
                 </View>
-            </Camera>
+            </CameraView>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    button: {
-        position: 'absolute',
-        top: 520,
-        left: '50%',
-        marginLeft: -30,
-    },
-    buttonFlip: {
-        position: 'absolute',
-        top: 540,
-        marginLeft: 20,
-    },
     container: {
         flex: 1,
         marginBottom: 125,
     },
     camera: {
         flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
+    containerFlip: {
+        height: '50%',
+        width: '100%',
+        flex: 1,
+        alignItems: 'flex-end'
+    },
+    containerButton: {
+        height: '50%',
+        flex: 1,
+        justifyContent: 'flex-end'
+    }
 })

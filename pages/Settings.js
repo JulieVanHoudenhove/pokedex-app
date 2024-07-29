@@ -32,7 +32,7 @@ export default function App() {
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.profileView}>
-                    <Image style={styles.profileImage} source={require('../assets/sacha.png')} />
+                    <Image style={styles.profileImage} source={image ? { uri: image } : require('../assets/sacha.png')} />
                     <Text style={styles.username}>Username</Text>
                 </View>
                 <View style={styles.content}>
@@ -42,9 +42,6 @@ export default function App() {
                     <TouchableOpacity style={styles.button} onPress={pickImage}>
                         <Text style={styles.textButton}>Pick an image from camera roll</Text>
                     </TouchableOpacity>
-                </View>
-                <View style={styles.content}>
-                    {image && <Image source={{ uri: image }} style={styles.imagePick} />}
                 </View>
             </ScrollView>
         </SafeAreaView>
